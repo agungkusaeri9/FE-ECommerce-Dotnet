@@ -1,0 +1,8 @@
+[
+  { "id": 1, "name": "Agung Kusaeri", "email": "agung@gmail.com", "created_at": "2023-10-01", "updated_at": "2023-10-01" },
+  { "id": 1, "name": "Tedi", "email": "tedi@gmail.com", "created_at": "2023-10-01", "updated_at": "2023-10-01" },
+  { "id": 1, "name": "Deni", "email": "deni@gmail.com", "created_at": "2023-10-01", "updated_at": "2023-10-01" },
+  { "id": 1, "name": "Acep", "email": "acep@gmail.com", "created_at": "2023-10-01", "updated_at": "2023-10-01" },
+  { "id": 1, "name": "Irna", "email": "irna@gmail.com", "created_at": "2023-10-01", "updated_at": "2023-10-01" }
+
+]
