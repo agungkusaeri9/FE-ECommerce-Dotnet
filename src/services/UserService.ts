@@ -19,8 +19,6 @@ const get: FetchFunctionWithPagination<User> = async (
   const response = await api.get<PaginatedResponse<User>>("users", {
     params: { limit, keyword, page, paginate: true },
   });
-
-  console.log(response.data);
   return response.data;
 };
 

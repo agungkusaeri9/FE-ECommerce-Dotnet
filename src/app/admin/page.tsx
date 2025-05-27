@@ -1,13 +1,18 @@
-import React, { Suspense } from 'react'
-import SignInForm from '@/components/auth/SignInForm'
-import Loading from '@/components/common/Loading'
+import type { Metadata } from "next";
+import { EcommerceMetrics } from "@/components/ecommerce/EcommerceMetrics";
+import React from "react";
+import StatisticsChart from "@/components/ecommerce/StatisticsChart";
+import Breadcrumb from "@/components/common/Breadcrumb";
 
-const Page = () => {
+export const metadata: Metadata = {
+    title:
+        "Dashboard - Admin"
+};
+
+export default function Dashboard() {
     return (
-        <Suspense fallback={<Loading />}>
-            <SignInForm />
-        </Suspense>
-    )
+        <>
+            <Breadcrumb items={[{ label: 'Dashboard', href: '' }]} />
+        </>
+    );
 }
-
-export default Page

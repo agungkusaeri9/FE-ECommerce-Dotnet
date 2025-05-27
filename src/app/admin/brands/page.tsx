@@ -9,12 +9,14 @@ import Button from "@/components/ui/button/Button";
 import { Area } from "@/types/area";
 import DataTable from "@/components/common/DataTable";
 import Loading from "@/components/common/Loading";
-import UserService from "@/services/UserService";
 import { User } from "@/types/user";
+import { Courier } from "@/types/courier";
+import BrandService from "@/services/BrandService";
+import { Brand } from "@/types/brand";
 
-function UserListPage() {
+function BrandListPage() {
     const {
-        data: users,
+        data: brands,
         isLoading,
         setKeyword,
         setCurrentPage,
@@ -22,8 +24,9 @@ function UserListPage() {
         limit,
         keyword,
         pagination
-    } = useFetchData(UserService.get, "users");
-    const { mutate: remove } = useDeleteData(UserService.remove, ["users"]);
+    } = useFetchData(BrandService.get, "brands");
+
+    const { mutate: remove } = useDeleteData(BrandService.remove, ["brands"]);
 
     const handleDelete = async (id: number) => {
         const confirmed = await confirmDelete();
@@ -36,27 +39,32 @@ function UserListPage() {
         {
             header: "ID",
             accessorKey: "id",
-            cell: (item: User) => item.id || "-",
+            cell: (item: Brand) => item.id || "-",
         },
         {
             header: "Name",
             accessorKey: "name",
         },
         {
-            header: "Email",
-            accessorKey: "email",
-        },
-        {
-            header: "Role",
-            accessorKey: "role",
+            header: "Image",
+            accessorKey: "image",
+            cell: (item: Brand) => (
+                <>
+                    <img
+                        src={item.image}
+                        alt={item.name}
+                        className="w-10 h-10 object-cover rounded"
+                    />
+                </>
+            ),
         },
         {
             header: "Action",
             accessorKey: "id",
-            cell: (item: Area) => (
+            cell: (item: Brand) => (
                 <div className="flex items-center gap-2">
                     <ButtonLink
-                        href={`/admin/users/${item.id}/edit`}
+                        href={`/admin/brands/${item.id}/edit`}
                         variant='info'
                         size='xs'
                     >
@@ -76,15 +84,15 @@ function UserListPage() {
 
     return (
         <div>
-            <Breadcrumb items={[{ label: 'Dashboard', href: '//admin' }, { label: 'Users', href: '/admin/users' }]} />
+            <Breadcrumb items={[{ label: 'Dashboard', href: '//admin' }, { label: 'brands', href: '/admin/brands' }]} />
             <div className="space-y-6">
                 <div className="flex justify-end mb-4">
-                    <ButtonLink size='xs' href="/admin/users/create">Create User</ButtonLink>
+                    <ButtonLink size='xs' href="/admin/brands/create">Create Brand</ButtonLink>
                 </div>
                 <DataTable
-                    title="User List"
+                    title="Brand List"
                     columns={columns}
-                    data={users || []}
+                    data={brands || []}
                     isLoading={isLoading}
                     pagination={{
                         currentPage: pagination?.curr_page || 1,
@@ -97,7 +105,7 @@ function UserListPage() {
                     search={{
                         value: keyword,
                         onChange: setKeyword,
-                        placeholder: "Search users...",
+                        placeholder: "Search brands...",
                     }}
                 />
             </div>
@@ -107,7 +115,7 @@ function UserListPage() {
 export default function Page() {
     return (
         <Suspense fallback={<Loading />}>
-            <UserListPage />
+            <BrandListPage />
         </Suspense>
     );
 }

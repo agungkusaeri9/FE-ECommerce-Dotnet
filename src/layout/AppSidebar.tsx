@@ -44,7 +44,7 @@ const AppSidebar: React.FC = () => {
     {
       icon: <GridIcon />,
       name: "Dashboard",
-      path: "/admin/dashboard",
+      path: "/admin",
       requiresAuth: false
     },
     {
@@ -53,6 +53,7 @@ const AppSidebar: React.FC = () => {
       subItems: [
         { name: "User", path: "/admin/users", pro: false },
         { name: "Courier", path: "/admin/couriers", pro: false },
+        { name: "Brand", path: "/admin/brands", pro: false },
       ],
       requiresAuth: true
     }

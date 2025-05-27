@@ -2,9 +2,10 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function middleware(req: NextRequest) {
   const token = req.cookies.get("token");
+  console.log("Token:", token);
   if (!token) {
     // Redirect jika tidak ada token
-    return NextResponse.redirect(new URL("/", req.url));
+    return NextResponse.redirect(new URL("/auth/signin", req.url));
   }
 
   // Lanjutkan request jika token ada
@@ -12,5 +13,5 @@ export async function middleware(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/admin/dashboard"],
+  matcher: ["/admin", "/admin/users"],
 };

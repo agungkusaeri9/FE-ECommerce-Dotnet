@@ -11,7 +11,7 @@ import DataTable from "@/components/common/DataTable";
 import Loading from "@/components/common/Loading";
 import { User } from "@/types/user";
 import courierservice from "@/services/CourierService";
-import { Courier } from "@/utils/courier";
+import { Courier } from "@/types/courier";
 
 function CourierListPage() {
     const {
@@ -74,7 +74,7 @@ function CourierListPage() {
 
     return (
         <div>
-            <Breadcrumb items={[{ label: 'Dashboard', href: '/admin/dashboard' }, { label: 'Couriers', href: '/admin/couriers' }]} />
+            <Breadcrumb items={[{ label: 'Dashboard', href: '//admin' }, { label: 'Couriers', href: '/admin/couriers' }]} />
             <div className="space-y-6">
                 <div className="flex justify-end mb-4">
                     <ButtonLink size='xs' href="/admin/couriers/create">Create Courier</ButtonLink>

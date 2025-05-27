@@ -42,7 +42,7 @@ export default function CreateArea() {
         <div>
             <Breadcrumb
                 items={[
-                    { label: 'Dashboard', href: '/admin/dashboard' },
+                    { label: 'Dashboard', href: '//admin' },
                     { label: 'Couriers', href: '/admin/couriers' },
                     { label: 'Create' }
                 ]}

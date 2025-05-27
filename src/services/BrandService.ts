@@ -1,29 +1,28 @@
 import { ApiResponse } from "@/types/api";
+import { Brand } from "@/types/brand";
 import { FetchFunctionWithPagination, PaginatedResponse } from "@/types/fetch";
 import api from "@/utils/api";
-import { Courier } from "@/types/courier";
 
 interface IForm {
   name: string;
-  status: any;
+  image?: File;
 }
 
-const get: FetchFunctionWithPagination<Courier> = async (
+const get: FetchFunctionWithPagination<Brand> = async (
   page = 1,
   limit = 10,
   keyword = ""
-): Promise<PaginatedResponse<Courier>> => {
-  const response = await api.get<PaginatedResponse<Courier>>("couriers", {
+): Promise<PaginatedResponse<Brand>> => {
+  const response = await api.get<PaginatedResponse<Brand>>("brands", {
     params: { limit, keyword, page, paginate: true },
   });
-
   return response.data;
 };
 
 const getWithoutPagination = async (
   keyword?: string,
-): Promise<ApiResponse<Courier[]>> => {
-  const response = await api.get<ApiResponse<Courier[]>>("couriers", {
+): Promise<ApiResponse<Brand[]>> => {
+  const response = await api.get<ApiResponse<Brand[]>>("brands", {
     params: { keyword },
   });
   return response.data;
@@ -31,7 +30,8 @@ const getWithoutPagination = async (
 
 const create = async (data: IForm) => {
   try {
-    const response = await api.post("couriers", data);
+    console.log({data})
+    const response = await api.post("brands", data);
     return response.data;
   } catch (error) {
     throw error;
@@ -40,7 +40,7 @@ const create = async (data: IForm) => {
 
 const getById = async (id: number) => {
   try {
-    const response = await api.get(`couriers/${id}`);
+    const response = await api.get(`brands/${id}`);
     return response.data;
   } catch (error) {
     throw error;
@@ -49,7 +49,7 @@ const getById = async (id: number) => {
 
 const update = async (id: number, data: IForm) => {
   try {
-    const response = await api.put(`couriers/${id}`, data);
+    const response = await api.put(`brands/${id}`, data);
     return response.data;
   } catch (error) {
     throw error;
@@ -58,13 +58,13 @@ const update = async (id: number, data: IForm) => {
 
 const remove = async (id: number) => {
   try {
-    const response = await api.delete(`couriers/${id}`);
+    const response = await api.delete(`brands/${id}`);
     return response.data;
   } catch (error) {
-    console.log(`Successfully deleted Courier with ID: ${id}`);
+    console.log(`Successfully deleted Brand with ID: ${id}`);
     throw error;
   }
 };
 
-const CourierService = { get, getWithoutPagination, create, getById, update, remove };
-export default CourierService;
+const BrandService = { get, getWithoutPagination, create, getById, update, remove };
+export default BrandService;
