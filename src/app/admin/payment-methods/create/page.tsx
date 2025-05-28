@@ -3,23 +3,29 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { createBrandValidator } from '@/validators/brandValidator';
-import BrandService from '@/services/BrandService';
 import { useCreateData } from '@/hooks/useCreateData';
 import InputLabel from '@/components/form/FormInput';
 import Button from '@/components/ui/button/Button';
 import Breadcrumb from '@/components/common/Breadcrumb';
 import ComponentCard from '@/components/common/ComponentCard';
+import PaymentMethodService from '@/services/PaymentMethodService';
+import SelectLabel from '@/components/form/FormSelect';
+import { createPaymentMethodValidator } from '@/validators/paymentMethodValidator';
 
-type CreateBrandForm = {
+type CreatePaymentMethodForm = {
     name: string;
+    type: string;
+    number: string;
+    ownerName: string;
+    isActive: number;
     image: File | null;
 };
 
 export default function CreateArea() {
     const { mutate: createMutation, isPending } = useCreateData(
-        BrandService.create,
-        ["brands"],
-        "/admin/brands"
+        PaymentMethodService.create,
+        ["paymentMethods"],
+        "/admin/payment-methods"
     );
     const {
         register,
@@ -27,15 +33,19 @@ export default function CreateArea() {
         formState: { errors },
         reset,
         setValue,
-    } = useForm<CreateBrandForm>({
-        resolver: zodResolver(createBrandValidator),
+    } = useForm<CreatePaymentMethodForm>({
+        resolver: zodResolver(createPaymentMethodValidator),
         mode: "onChange",
-        defaultValues: { name: "", image: null },
+        defaultValues: { name: "", number: "", ownerName: "", isActive: 0, type: "", image: null },
     });
 
-    const onSubmit = (data: CreateBrandForm) => {
+    const onSubmit = (data: CreatePaymentMethodForm) => {
         const formData = new FormData();
         formData.append("name", data.name);
+        formData.append("type", data.type);
+        formData.append("number", data.number);
+        formData.append("ownerName", data.ownerName);
+        formData.append("isActive", data.isActive.toString());
         if (data.image) {
             formData.append("image", data.image);
         }
@@ -49,7 +59,7 @@ export default function CreateArea() {
             <Breadcrumb
                 items={[
                     { label: "Dashboard", href: "/admin" },
-                    { label: "Brands", href: "/admin/brands" },
+                    { label: "Payment Methods", href: "/admin/payment-methods" },
                     { label: "Create" },
                 ]}
             />
@@ -70,8 +80,51 @@ export default function CreateArea() {
                             error={errors.name}
                         />
 
+                        <SelectLabel
+                            label="Type"
+                            name="type"
+                            required
+                            options={[
+                                { value: "Bank Transfer", label: "Bank Transfer" },
+                                { value: "Ewallet", label: "Ewallet" }
+                            ]}
+                            register={register("type")}
+                            error={errors.type}
+                        />
+
                         <InputLabel
-                            label="Upload Image"
+                            label="Number"
+                            name="number"
+                            type="text"
+                            required
+                            placeholder="Enter number"
+                            register={register("number")}
+                            error={errors.number}
+                        />
+                        <InputLabel
+                            label="Owner Name"
+                            name="ownerName"
+                            type="text"
+                            required
+                            placeholder="Enter owner name"
+                            register={register("ownerName")}
+                            error={errors.ownerName}
+                        />
+
+                        <SelectLabel
+                            label="Is Active"
+                            name="isActive"
+                            required
+                            options={[
+                                { value: 0, label: "Inactive" },
+                                { value: 1, label: "Active" },
+                            ]}
+                            register={register("isActive", { valueAsNumber: true })}
+                            error={errors.isActive}
+                        />
+
+                        <InputLabel
+                            label="Image"
                             name="image"
                             type="file"
                             required

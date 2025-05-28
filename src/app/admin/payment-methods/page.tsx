@@ -11,12 +11,13 @@ import DataTable from "@/components/common/DataTable";
 import Loading from "@/components/common/Loading";
 import { User } from "@/types/user";
 import { Courier } from "@/types/courier";
-import BrandService from "@/services/BrandService";
+import PaymentMethodService from "@/services/PaymentMethodService";
 import { Brand } from "@/types/brand";
+import { PaymentMethod } from "@/types/paymentMethod";
 
-function BrandListPage() {
+function PaymentMethodListPage() {
     const {
-        data: brands,
+        data: paymentMethods,
         isLoading,
         setKeyword,
         setCurrentPage,
@@ -24,9 +25,9 @@ function BrandListPage() {
         limit,
         keyword,
         pagination
-    } = useFetchData(BrandService.get, "brands");
+    } = useFetchData(PaymentMethodService.get, "paymentMethods");
 
-    const { mutate: remove } = useDeleteData(BrandService.remove, ["brands"]);
+    const { mutate: remove } = useDeleteData(PaymentMethodService.remove, ["paymentMethods"]);
 
     const handleDelete = async (id: number) => {
         const confirmed = await confirmDelete();
@@ -46,9 +47,26 @@ function BrandListPage() {
             accessorKey: "name",
         },
         {
+            header: "Number",
+            accessorKey: "number",
+        },
+        {
+            header: "Owner Name",
+            accessorKey: "ownerName",
+        },
+        {
+            header: "Is Active",
+            accessorKey: "isActive",
+            cell: (item: PaymentMethod) => (
+                <span className={`px-2 py-1 rounded ${item.isActive ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>
+                    {item.isActive ? 'Active' : 'Inactive'}
+                </span>
+            ),
+        },
+        {
             header: "Image",
             accessorKey: "image",
-            cell: (item: Brand) => (
+            cell: (item: PaymentMethod) => (
                 <>
                     <img
                         src={item.image}
@@ -64,7 +82,7 @@ function BrandListPage() {
             cell: (item: Brand) => (
                 <div className="flex items-center gap-2">
                     <ButtonLink
-                        href={`/admin/brands/${item.id}/edit`}
+                        href={`/admin/payment-methods/${item.id}/edit`}
                         variant='info'
                         size='xs'
                     >
@@ -84,15 +102,15 @@ function BrandListPage() {
 
     return (
         <div>
-            <Breadcrumb items={[{ label: 'Dashboard', href: '/admin' }, { label: 'Brands', href: '/admin/brands' }]} />
+            <Breadcrumb items={[{ label: 'Dashboard', href: '//\admin' }, { label: 'Payment Methods', href: '/admin/payment-methods' }]} />
             <div className="space-y-6">
                 <div className="flex justify-end mb-4">
-                    <ButtonLink size='xs' href="/admin/brands/create">Create Brand</ButtonLink>
+                    <ButtonLink size='xs' href="/admin/payment-methods/create">Create Payment Method</ButtonLink>
                 </div>
                 <DataTable
-                    title="Brand List"
+                    title="Payment Method List"
                     columns={columns}
-                    data={brands || []}
+                    data={paymentMethods || []}
                     isLoading={isLoading}
                     pagination={{
                         currentPage: pagination?.curr_page || 1,
@@ -105,7 +123,7 @@ function BrandListPage() {
                     search={{
                         value: keyword,
                         onChange: setKeyword,
-                        placeholder: "Search brands...",
+                        placeholder: "Search paymentMethods...",
                     }}
                 />
             </div>
@@ -115,7 +133,7 @@ function BrandListPage() {
 export default function Page() {
     return (
         <Suspense fallback={<Loading />}>
-            <BrandListPage />
+            <PaymentMethodListPage />
         </Suspense>
     );
 }

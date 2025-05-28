@@ -54,6 +54,7 @@ const AppSidebar: React.FC = () => {
         { name: "User", path: "/admin/users", pro: false },
         { name: "Courier", path: "/admin/couriers", pro: false },
         { name: "Brand", path: "/admin/brands", pro: false },
+        { name: "Payment Method", path: "/admin/payment-methods", pro: false },
       ],
       requiresAuth: true
     }

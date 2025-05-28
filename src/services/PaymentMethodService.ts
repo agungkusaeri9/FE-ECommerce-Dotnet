@@ -1,19 +1,19 @@
 import { ApiResponse } from "@/types/api";
-import { Brand } from "@/types/brand";
 import { FetchFunctionWithPagination, PaginatedResponse } from "@/types/fetch";
 import api from "@/utils/api";
+import { PaymentMethod } from "@/types/paymentMethod";
 
 interface IForm {
   name: string;
   image?: File;
 }
 
-const get: FetchFunctionWithPagination<Brand> = async (
+const get: FetchFunctionWithPagination<PaymentMethod> = async (
   page = 1,
   limit = 10,
   keyword = ""
-): Promise<PaginatedResponse<Brand>> => {
-  const response = await api.get<PaginatedResponse<Brand>>("brands", {
+): Promise<PaginatedResponse<PaymentMethod>> => {
+  const response = await api.get<PaginatedResponse<PaymentMethod>>("payment-methods", {
     params: { limit, keyword, page, paginate: true },
   });
   return response.data;
@@ -21,8 +21,8 @@ const get: FetchFunctionWithPagination<Brand> = async (
 
 const getWithoutPagination = async (
   keyword?: string,
-): Promise<ApiResponse<Brand[]>> => {
-  const response = await api.get<ApiResponse<Brand[]>>("brands", {
+): Promise<ApiResponse<PaymentMethod[]>> => {
+  const response = await api.get<ApiResponse<PaymentMethod[]>>("payment-methods", {
     params: { keyword },
   });
   return response.data;
@@ -30,7 +30,7 @@ const getWithoutPagination = async (
 
 const create = async (data: FormData) => {
   try {
-    const response = await api.post("brands", data,{
+    const response = await api.post("payment-methods", data,{
       headers: {
         "Content-Type": "multipart/form-data",
       },
@@ -43,7 +43,7 @@ const create = async (data: FormData) => {
 
 const getById = async (id: number) => {
   try {
-    const response = await api.get(`brands/${id}`);
+    const response = await api.get(`payment-methods/${id}`);
     return response.data;
   } catch (error) {
     throw error;
@@ -52,7 +52,7 @@ const getById = async (id: number) => {
 
 const update = async (id: number, data: FormData) => {
   try {
-    const response = await api.put(`brands/${id}`, data,{
+    const response = await api.put(`payment-methods/${id}`, data,{
       headers: {
         "Content-Type": "multipart/form-data",
       },
@@ -65,13 +65,13 @@ const update = async (id: number, data: FormData) => {
 
 const remove = async (id: number) => {
   try {
-    const response = await api.delete(`brands/${id}`);
+    const response = await api.delete(`payment-methods/${id}`);
     return response.data;
   } catch (error) {
-    console.log(`Successfully deleted Brand with ID: ${id}`);
+    console.log(`Successfully deleted PaymentMethod with ID: ${id}`);
     throw error;
   }
 };
 
-const BrandService = { get, getWithoutPagination, create, getById, update, remove };
-export default BrandService;
+const PaymentMethodService = { get, getWithoutPagination, create, getById, update, remove };
+export default PaymentMethodService;

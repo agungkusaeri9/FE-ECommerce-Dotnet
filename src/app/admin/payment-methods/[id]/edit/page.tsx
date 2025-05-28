@@ -6,27 +6,27 @@ import SelectLabel from '@/components/form/FormSelect';
 import Button from '@/components/ui/button/Button';
 import { useFetchById } from '@/hooks/useFetchDetailData';
 import { useUpdateData } from '@/hooks/useUpdateData';
-import BrandService from '@/services/BrandService';
-import { Brand } from '@/types/brand';
-import { updateBrandValidator } from '@/validators/brandValidator';
+import PaymentMethodService from '@/services/PaymentMethodService';
+import { PaymentMethod } from '@/types/paymentMethod';
+import { updatePaymentMethodValidator } from '@/validators/paymentMethodValidator';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useParams } from 'next/navigation';
 import React, { useEffect } from 'react'
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
-type updateBrandForm = z.infer<typeof updateBrandValidator>;
+type updatePaymentMethodForm = z.infer<typeof updatePaymentMethodValidator>;
 
 export default function Page() {
     const params = useParams();
     const id = Number(params.id);
 
-    const { data: brand, isLoading } = useFetchById<Brand>(BrandService.getById, id, "brand");
+    const { data: paymentMethod, isLoading } = useFetchById<PaymentMethod>(PaymentMethodService.getById, id, "paymentMethod");
     const { mutate: updateMutation, isPending } = useUpdateData(
-        BrandService.update,
+        PaymentMethodService.update,
         id,
-        "brands",
-        "/admin/brands"
+        "paymentMethods",
+        "/admin/payment-methods"
     );
 
     const {
@@ -35,24 +35,31 @@ export default function Page() {
         formState: { errors },
         reset,
         setValue,
-    } = useForm<updateBrandForm>({
-        resolver: zodResolver(updateBrandValidator),
-        defaultValues: { name: "", image: null },
+    } = useForm<updatePaymentMethodForm>({
+        resolver: zodResolver(updatePaymentMethodValidator),
         mode: "onChange",
     });
 
     useEffect(() => {
-        if (brand) {
+        if (paymentMethod) {
             reset({
-                name: brand.name
+                name: paymentMethod.name,
+                type: paymentMethod.type,
+                number: paymentMethod.number,
+                ownerName: paymentMethod.ownerName,
+                isActive: paymentMethod.isActive,
             });
         }
-    }, [brand, reset]);
+    }, [paymentMethod, reset]);
 
 
-    const onSubmit = (data: updateBrandForm) => {
+    const onSubmit = (data: updatePaymentMethodForm) => {
         const formData = new FormData();
         formData.append("name", data.name);
+        formData.append("type", data.type);
+        formData.append("number", data.number);
+        formData.append("ownerName", data.ownerName);
+        formData.append("isActive", data.isActive.toString());
         if (data.image) {
             formData.append("image", data.image);
         }
@@ -66,7 +73,7 @@ export default function Page() {
             <Breadcrumb
                 items={[
                     { label: 'Dashboard', href: '/dashboard' },
-                    { label: 'Brands', href: '/admin/brands' },
+                    { label: 'paymentMethods', href: '/admin/payment-methods' },
                     { label: 'Edit' }
                 ]}
             />
@@ -78,9 +85,52 @@ export default function Page() {
                             name="name"
                             type="text"
                             required
-                            placeholder="Enter courier name"
+                            placeholder="Enter name"
                             register={register("name")}
-                            error={errors?.name}
+                            error={errors.name}
+                        />
+
+                        <SelectLabel
+                            label="Type"
+                            name="type"
+                            required
+                            options={[
+                                { value: "Bank Transfer", label: "Bank Transfer" },
+                                { value: "Ewallet", label: "Ewallet" }
+                            ]}
+                            register={register("type")}
+                            error={errors.type}
+                        />
+
+                        <InputLabel
+                            label="Number"
+                            name="number"
+                            type="text"
+                            required
+                            placeholder="Enter number"
+                            register={register("number")}
+                            error={errors.number}
+                        />
+                        <InputLabel
+                            label="Owner Name"
+                            name="ownerName"
+                            type="text"
+                            required
+                            placeholder="Enter owner name"
+                            register={register("ownerName")}
+                            error={errors.ownerName}
+                        />
+
+                        <SelectLabel
+                            label="Is Active"
+                            name="isActive"
+                            required
+                            options={[
+                                { value: 0, label: "Inactive" },
+                                { value: 1, label: "Active" },
+                            ]}
+                            register={register("isActive", { valueAsNumber: true })}
+                            error={errors.isActive}
                         />
                         <InputLabel
                             label="Upload Image"
@@ -109,7 +159,7 @@ export default function Page() {
                                 disabled={isPending || isLoading}
                                 loading={isPending}
                             >
-                                Update Brand
+                                Update Payment Method
                             </Button>
                         </div>
                     </form>

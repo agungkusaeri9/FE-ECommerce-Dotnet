@@ -5,15 +5,16 @@ import Label from "./Label";
 interface InputLabelProps {
     label: string;
     name: string;
-    type?: "text" | "number" | "email" | "password" | "date" | "time" | string;
+    type?: "text" | "number" | "email" | "password" | "date" | "time" | "file" | string;
     required?: boolean;
     placeholder?: string;
     error?: FieldError;
     register?: UseFormRegisterReturn;
     disabled?: boolean;
     success?: boolean;
-    hint?: string; // Optional hint text
+    hint?: string;
     onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+    accept?: string; // untuk file types seperti image/*
 }
 
 const InputLabel: React.FC<InputLabelProps> = ({
@@ -27,9 +28,9 @@ const InputLabel: React.FC<InputLabelProps> = ({
     disabled = false,
     success = false,
     hint,
-    onChange
+    onChange,
+    accept
 }) => {
-    // Class untuk input berdasarkan kondisi (disabled, success, error)
     let inputClasses = `h-11 w-full rounded-lg border appearance-none px-4 py-2.5 text-sm shadow-theme-xs placeholder:text-gray-400 focus:outline-hidden focus:ring-3 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30 dark:focus:border-brand-800`;
 
     if (disabled) {
@@ -47,15 +48,18 @@ const InputLabel: React.FC<InputLabelProps> = ({
             <Label htmlFor={name}>
                 {label} {required && <span className="text-error-500">*</span>}
             </Label>
+
             <input
-                onChange={onChange}
                 id={name}
                 type={type}
-                placeholder={placeholder}
+                placeholder={type !== "file" ? placeholder : undefined}
                 {...register}
                 disabled={disabled}
+                onChange={onChange}
+                accept={type === "file" ? accept : undefined}
                 className={inputClasses}
             />
+
             {error && <p className="text-sm text-error-500 mt-1">{error.message}</p>}
             {hint && !error && !success && (
                 <p className="mt-1.5 text-xs text-gray-500">{hint}</p>
