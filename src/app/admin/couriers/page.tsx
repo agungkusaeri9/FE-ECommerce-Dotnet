@@ -9,7 +9,6 @@ import Button from "@/components/ui/button/Button";
 import { Area } from "@/types/area";
 import DataTable from "@/components/common/DataTable";
 import Loading from "@/components/common/Loading";
-import { User } from "@/types/user";
 import courierservice from "@/services/CourierService";
 import { Courier } from "@/types/courier";
 

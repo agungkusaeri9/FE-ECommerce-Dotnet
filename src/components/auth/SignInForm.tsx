@@ -1,9 +1,7 @@
 "use client";
 import Checkbox from "@/components/form/input/Checkbox";
 import Button from "@/components/ui/button/Button";
-import { ChevronLeftIcon } from "@/icons";
 import AuthService from "@/services/AuthService";
-import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import React, { useState } from "react";
 import { setCookie } from 'cookies-next/client';

@@ -2,7 +2,6 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { createBrandValidator } from '@/validators/brandValidator';
 import { useCreateData } from '@/hooks/useCreateData';
 import InputLabel from '@/components/form/FormInput';
 import Button from '@/components/ui/button/Button';

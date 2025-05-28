@@ -3,11 +3,6 @@ import { FetchFunctionWithPagination, PaginatedResponse } from "@/types/fetch";
 import api from "@/utils/api";
 import { PaymentMethod } from "@/types/paymentMethod";
 
-interface IForm {
-  name: string;
-  image?: File;
-}
-
 const get: FetchFunctionWithPagination<PaymentMethod> = async (
   page = 1,
   limit = 10,

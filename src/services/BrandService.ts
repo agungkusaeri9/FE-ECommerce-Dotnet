@@ -3,11 +3,6 @@ import { Brand } from "@/types/brand";
 import { FetchFunctionWithPagination, PaginatedResponse } from "@/types/fetch";
 import api from "@/utils/api";
 
-interface IForm {
-  name: string;
-  image?: File;
-}
-
 const get: FetchFunctionWithPagination<Brand> = async (
   page = 1,
   limit = 10,

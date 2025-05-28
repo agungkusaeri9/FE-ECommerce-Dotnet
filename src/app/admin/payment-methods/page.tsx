@@ -6,14 +6,12 @@ import { useFetchData } from "@/hooks/useFetchData";
 import { useDeleteData } from "@/hooks/useDeleteData";
 import { confirmDelete } from "@/utils/confirm";
 import Button from "@/components/ui/button/Button";
-import { Area } from "@/types/area";
 import DataTable from "@/components/common/DataTable";
 import Loading from "@/components/common/Loading";
-import { User } from "@/types/user";
-import { Courier } from "@/types/courier";
 import PaymentMethodService from "@/services/PaymentMethodService";
 import { Brand } from "@/types/brand";
 import { PaymentMethod } from "@/types/paymentMethod";
+import Image from "next/image";
 
 function PaymentMethodListPage() {
     const {
@@ -68,10 +66,12 @@ function PaymentMethodListPage() {
             accessorKey: "image",
             cell: (item: PaymentMethod) => (
                 <>
-                    <img
+                    <Image
                         src={item.image}
                         alt={item.name}
-                        className="w-10 h-10 object-cover rounded"
+                        width={50}
+                        height={50}
+                        className="rounded"
                     />
                 </>
             ),

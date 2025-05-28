@@ -5,6 +5,7 @@ import { Courier } from "@/types/courier";
 
 interface IForm {
   name: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   status: any;
 }
 

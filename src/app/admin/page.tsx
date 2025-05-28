@@ -13,6 +13,10 @@ export default function Dashboard() {
     return (
         <>
             <Breadcrumb items={[{ label: 'Dashboard', href: '' }]} />
+            <div className="space-y-6">
+                <EcommerceMetrics />
+                <StatisticsChart />
+            </div>
         </>
     );
 }

@@ -2,7 +2,6 @@
 import Breadcrumb from '@/components/common/Breadcrumb'
 import ComponentCard from '@/components/common/ComponentCard'
 import InputLabel from '@/components/form/FormInput';
-import SelectLabel from '@/components/form/FormSelect';
 import Button from '@/components/ui/button/Button';
 import { useFetchById } from '@/hooks/useFetchDetailData';
 import { useUpdateData } from '@/hooks/useUpdateData';
