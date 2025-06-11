@@ -7,24 +7,19 @@ import InputLabel from '@/components/form/FormInput';
 import Button from '@/components/ui/button/Button';
 import Breadcrumb from '@/components/common/Breadcrumb';
 import ComponentCard from '@/components/common/ComponentCard';
-import PaymentMethodService from '@/services/PaymentMethodService';
-import SelectLabel from '@/components/form/FormSelect';
-import { createPaymentMethodValidator } from '@/validators/paymentMethodValidator';
+import CategoryService from '@/services/CategoryService';
+import { createCategorydValidator } from '@/validators/categoryValidator';
 
-type CreatePaymentMethodForm = {
+type CreateServiceForm = {
     name: string;
-    type: string;
-    number: string;
-    ownerName: string;
-    isActive: number;
     image: File | null;
 };
 
 export default function CreateArea() {
     const { mutate: createMutation, isPending } = useCreateData(
-        PaymentMethodService.create,
-        ["paymentMethods"],
-        "/admin/payment-methods"
+        CategoryService.create,
+        ["categories"],
+        "/admin/categories"
     );
     const {
         register,
@@ -32,19 +27,15 @@ export default function CreateArea() {
         formState: { errors },
         reset,
         setValue,
-    } = useForm<CreatePaymentMethodForm>({
-        resolver: zodResolver(createPaymentMethodValidator),
+    } = useForm<CreateServiceForm>({
+        resolver: zodResolver(createCategorydValidator),
         mode: "onChange",
-        defaultValues: { name: "", number: "", ownerName: "", isActive: 0, type: "", image: null },
+        defaultValues: { name: "", image: null },
     });
 
-    const onSubmit = (data: CreatePaymentMethodForm) => {
+    const onSubmit = (data: CreateServiceForm) => {
         const formData = new FormData();
         formData.append("name", data.name);
-        formData.append("type", data.type);
-        formData.append("number", data.number);
-        formData.append("ownerName", data.ownerName);
-        formData.append("isActive", data.isActive.toString());
         if (data.image) {
             formData.append("image", data.image);
         }
@@ -58,12 +49,12 @@ export default function CreateArea() {
             <Breadcrumb
                 items={[
                     { label: "Dashboard", href: "/admin" },
-                    { label: "Payment Methods", href: "/admin/payment-methods" },
+                    { label: "Categories", href: "/admin/categories" },
                     { label: "Create" },
                 ]}
             />
             <div className="space-y-6">
-                <ComponentCard title="Create Payment Method">
+                <ComponentCard title="Create Category">
                     <form
                         onSubmit={handleSubmit(onSubmit)}
                         className="space-y-4"
@@ -79,51 +70,8 @@ export default function CreateArea() {
                             error={errors.name}
                         />
 
-                        <SelectLabel
-                            label="Type"
-                            name="type"
-                            required
-                            options={[
-                                { value: "Bank Transfer", label: "Bank Transfer" },
-                                { value: "Ewallet", label: "Ewallet" }
-                            ]}
-                            register={register("type")}
-                            error={errors.type}
-                        />
-
                         <InputLabel
-                            label="Number"
-                            name="number"
-                            type="text"
-                            required
-                            placeholder="Enter number"
-                            register={register("number")}
-                            error={errors.number}
-                        />
-                        <InputLabel
-                            label="Owner Name"
-                            name="ownerName"
-                            type="text"
-                            required
-                            placeholder="Enter owner name"
-                            register={register("ownerName")}
-                            error={errors.ownerName}
-                        />
-
-                        <SelectLabel
-                            label="Is Active"
-                            name="isActive"
-                            required
-                            options={[
-                                { value: 0, label: "Inactive" },
-                                { value: 1, label: "Active" },
-                            ]}
-                            register={register("isActive", { valueAsNumber: true })}
-                            error={errors.isActive}
-                        />
-
-                        <InputLabel
-                            label="Image"
+                            label="Upload Image"
                             name="image"
                             type="file"
                             required
@@ -150,7 +98,7 @@ export default function CreateArea() {
                                 disabled={isPending}
                                 loading={isPending}
                             >
-                                Create Payment Method
+                                Create Category
                             </Button>
                         </div>
                     </form>

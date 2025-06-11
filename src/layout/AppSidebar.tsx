@@ -9,6 +9,7 @@ import {
   DatabaseIcon,
   GridIcon,
   HorizontaLDots,
+  PurchaseRequestIcon,
 } from "../icons/index";
 import { getCookie } from "cookies-next";
 
@@ -46,6 +47,21 @@ const AppSidebar: React.FC = () => {
       name: "Dashboard",
       path: "/admin",
       requiresAuth: false
+    },
+    {
+      icon: <PurchaseRequestIcon />,
+      name: "Product",
+      subItems: [
+        { name: "Category", path: "/admin/categories", pro: false },
+        { name: "Product", path: "/admin/products", pro: false }
+      ],
+      requiresAuth: true
+    },
+    {
+      icon: <PurchaseRequestIcon />,
+      name: "Stock",
+      path: "/admin/stocks",
+      requiresAuth: true
     },
     {
       icon: <DatabaseIcon />,
