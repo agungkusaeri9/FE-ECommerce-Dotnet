@@ -13,6 +13,7 @@ interface InputLabelProps {
     disabled?: boolean;
     success?: boolean;
     hint?: string;
+    defaultValue?: string | number;
     onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
     accept?: string; // untuk file types seperti image/*
 }
@@ -27,6 +28,7 @@ const InputLabel: React.FC<InputLabelProps> = ({
     register,
     disabled = false,
     success = false,
+    defaultValue = "",
     hint,
     onChange,
     accept
@@ -58,6 +60,7 @@ const InputLabel: React.FC<InputLabelProps> = ({
                 onChange={onChange}
                 accept={type === "file" ? accept : undefined}
                 className={inputClasses}
+                defaultValue={defaultValue}
             />
 
             {error && <p className="text-sm text-error-500 mt-1">{error.message}</p>}

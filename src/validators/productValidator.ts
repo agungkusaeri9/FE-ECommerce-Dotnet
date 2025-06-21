@@ -16,7 +16,7 @@ export const updateProductValidator = z.object({
   name: z.string().min(1, "Name is required"),
   description: z.string().min(1, "Description is required"),
   price: z.number().min(1, "Price is required"),
-  stock: z.number().min(1, "Stock is required"),
+  // stock: z.null(),
   categoryId: z.number().min(1, "Category is required"),
   brandId: z.number().min(1, "Brand is required"),
   image: z

@@ -8,7 +8,7 @@ export type Product = {
     slug:string;
     image:string;
     price: number;
-    stock: number;
+    stock?: number | undefined;
     category_id:number;
     category:Category;
     brand: Brand;

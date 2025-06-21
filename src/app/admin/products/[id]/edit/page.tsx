@@ -54,7 +54,6 @@ export default function Page() {
                 name: product.name,
                 description: product.description,
                 price: product.price,
-                stock: product.stock,
                 categoryId: product.category.id,
                 brandId: product.brand.id,
                 image: null,
@@ -68,7 +67,7 @@ export default function Page() {
         formData.append("name", data.name);
         formData.append("description", data.description);
         formData.append("price", data.price.toString());
-        formData.append("stock", data.stock.toString());
+        // formData.append("stock", data.stock.toString());
         formData.append("categoryId", data.categoryId.toString());
         formData.append("brandId", data.brandId.toString());
         if (data.image) {
@@ -153,8 +152,7 @@ export default function Page() {
                                 type="number"
                                 required
                                 placeholder="Enter stock"
-                                register={register("stock", { valueAsNumber: true })}
-                                error={errors.stock}
+                                defaultValue={product?.stock ?? 0}
                                 disabled
                             />
                             <InputLabel
